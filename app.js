@@ -1,5 +1,7 @@
 const express = require('express');
-const { SERVER_PORT } = require('./config/server');
+const SERVER_CONFIG = require('./config/server');
+const tweetsRouter = require('./routes/tweets');
+
 const app = express();
 
 app.use(express.json());
@@ -7,7 +9,9 @@ app.use(express.urlencoded({
     extended: true,
 }));
 
-const server = app.listen(SERVER_PORT, (error) => {
+app.use("/tweets", tweetsRouter);
+
+const server = app.listen(SERVER_CONFIG.PORT, error => {
     if (error) {
         return console.log(`Error: ${error}`);
     }
