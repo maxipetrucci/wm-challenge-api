@@ -1,0 +1,19 @@
+{
+  "name": "wm-challenge-api",
+  "version": "1.0.0",
+  "description": "API to pull last tweets from Twitter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxipetrucci/wm-challenge-api.git"
+  },
+  "author": "maxipetrucci",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maxipetrucci/wm-challenge-api/issues"
+  },
+  "homepage": "https://github.com/maxipetrucci/wm-challenge-api#readme"
+}
