@@ -1,6 +1,7 @@
 const express = require('express');
 const SERVER_CONFIG = require('./config/server');
-const tweetsRouter = require('./routes/tweets');
+const tweetsRouter = require('./routes/tweets-router');
+const Twitter = require('twitter-v2');
 
 const app = express();
 
@@ -9,7 +10,7 @@ app.use(express.urlencoded({
     extended: true,
 }));
 
-app.use("/tweets", tweetsRouter);
+app.use('/tweets', tweetsRouter);
 
 const server = app.listen(SERVER_CONFIG.PORT, error => {
     if (error) {
