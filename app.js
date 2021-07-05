@@ -1,7 +1,6 @@
 const express = require('express');
 const SERVER_CONFIG = require('./config/server');
 const tweetsRouter = require('./routes/tweets-router');
-const Twitter = require('twitter-v2');
 
 const app = express();
 
