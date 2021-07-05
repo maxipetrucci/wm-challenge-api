@@ -1,7 +1,6 @@
 const express = require('express');
 const SERVER_CONFIG = require('./config/server');
 const tweetsRouter = require('./routes/tweets-router');
-const DatabaseService = require('./services/database-service');
 
 const app = express();
 
@@ -16,6 +15,6 @@ const server = app.listen(SERVER_CONFIG.PORT, error => {
     if (error) {
         return console.log(`Error: ${error}`);
     }
-    
+
     console.log(`Server listening on port ${server.address().port}`);
 });
