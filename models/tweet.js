@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const DatabaseService = require("../services/database-service");
+const DatabaseService = require("../services/database.service");
 const User = require("./User");
 
 const Tweet = DatabaseService.get().define('tweets', {

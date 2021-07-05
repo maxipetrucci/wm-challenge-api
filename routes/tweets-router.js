@@ -1,5 +1,5 @@
 const express = require('express');
-const { searchLastSevenDaysJavascriptTweets } = require('../services/twitter-service');
+const { searchLastSevenDaysJavascriptTweets } = require('../services/twitter.service');
 const tweetsRouter = express.Router();
 
 tweetsRouter.get('/latest', (request, response) => {

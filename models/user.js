@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const DatabaseService = require("../services/database-service");
+const DatabaseService = require("../services/database.service");
 
 const User = DatabaseService.get().define('users', {
     id: { type: Sequelize.BIGINT.UNSIGNED, primaryKey: true },
