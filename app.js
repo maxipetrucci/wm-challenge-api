@@ -1,5 +1,5 @@
 const express = require('express');
-const SERVER_CONFIG = require('./config/server');
+const SERVER_CONFIG = require('./config/server.config');
 const tweetsRouter = require('./routers/tweets.router');
 
 const app = express();
