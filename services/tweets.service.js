@@ -1,5 +1,5 @@
-const Tweet = require("../models/tweet");
-const User = require("../models/User");
+const Tweet = require("../models/tweet.model");
+const User = require("../models/user.model");
 
 class TweetsService {
     static findAll = async () => {

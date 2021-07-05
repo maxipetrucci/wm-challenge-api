@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const DatabaseService = require("../services/database.service");
-const User = require("./user.model");
+const User = require("./User");
 
 const Tweet = DatabaseService.get().define('tweets', {
     id: { type: Sequelize.BIGINT, primaryKey: true },
