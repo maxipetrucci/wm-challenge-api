@@ -6,7 +6,8 @@ const SERVER_CONFIG = {
     DATABASE_PORT: process.env.DATABASE_PORT || 3306,
     DATABASE_NAME: process.env.DATABASE_NAME,
     DATABASE_USERNAME: process.env.DATABASE_USERNAME,
-    DATABASE_PASSWORD: process.env.DATABASE_PASSWORD
+    DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
+    ENV: process.env.ENV || 'prd'
 }
 
 module.exports = SERVER_CONFIG;
