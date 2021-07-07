@@ -61,7 +61,15 @@ const fetchAndStoreTweets = async ({ fromId, maxResults }) => {
 }
 
 const storeTweets = (tweets) => {
-    let promises = tweets.data.map(t => TweetsService.upsert({
+    let promises = tweets.includes.users.map(u => UsersService.upsert({
+        id: u.id,
+        username: u.username,
+        name: u.name,
+        verified: u.verified,
+        image_url: u.profile_image_url
+    }));
+
+    promises = promises.concat(tweets.data.map(t => TweetsService.upsert({
         id: t.id,
         author_id: t.author_id,
         text: t.text,
@@ -70,14 +78,6 @@ const storeTweets = (tweets) => {
         replies_count: t.public_metrics.reply_count,
         likes_count: t.public_metrics.like_count,
         quotes_count: t.public_metrics.quote_count
-    }));
-
-    promises = promises.concat(tweets.includes.users.map(u => UsersService.upsert({
-        id: u.id,
-        username: u.username,
-        name: u.name,
-        verified: u.verified,
-        image_url: u.profile_image_url
     })));
 
     return Promise.all(promises);
