@@ -1,9 +1,27 @@
+const { Op } = require("sequelize");
 const Tweet = require("../models/tweet.model");
 const User = require("../models/user.model");
 
 class TweetsService {
-    static findAll = async () => {
-        return Tweet.findAll({ include: User });
+    static findAllSinceId = async ({ sinceId, limit = 25 }) => {
+        let whereCondition = undefined;
+        if (sinceId) {
+            whereCondition = {
+                id: {
+                    [Op.lt]: sinceId
+                }
+            }
+        }
+
+        return Tweet.findAll({
+            where: whereCondition,
+            include: User,
+            order: [
+                ['id', 'DESC']
+            ],
+            limit: limit
+        })
+        .then(tweets => JSON.parse(JSON.stringify(tweets, null, 2)))
     }
 
     static upsert = (tweet) => {
