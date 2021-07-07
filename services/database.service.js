@@ -8,8 +8,8 @@ const sequelize = new Sequelize(SERVER_CONFIG.DATABASE_NAME, SERVER_CONFIG.DATAB
 });
 
 class DatabaseService {
-    static init = async () => {
-        return sequelize.authenticate();
+    static sync = async () => {
+        return sequelize.sync();
     }
 
     static get = () => {
