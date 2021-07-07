@@ -4,7 +4,8 @@ const SERVER_CONFIG = require("../config/server.config");
 const sequelize = new Sequelize(SERVER_CONFIG.DATABASE_NAME, SERVER_CONFIG.DATABASE_USERNAME, SERVER_CONFIG.DATABASE_PASSWORD, {
     host: SERVER_CONFIG.DATABASE_HOST,
     port: SERVER_CONFIG.DATABASE_PORT,
-    dialect: 'mysql'
+    dialect: 'mysql',
+    logging: SERVER_CONFIG.ENV == 'dev'
 });
 
 class DatabaseService {
