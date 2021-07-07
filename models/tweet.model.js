@@ -4,7 +4,7 @@ const User = require("./user.model");
 
 const Tweet = DatabaseService.get().define('tweets', {
     id: { type: Sequelize.BIGINT, primaryKey: true },
-    author_id: Sequelize.STRING,
+    author_id: Sequelize.BIGINT.UNSIGNED,
     text: Sequelize.STRING,
     created_at: Sequelize.DATE,
     retweets_count: Sequelize.INTEGER,
