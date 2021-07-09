@@ -19,7 +19,7 @@ class TweetsService {
             order: [
                 ['id', 'DESC']
             ],
-            limit: limit
+            limit: parseInt(limit)
         })
         .then(tweets => JSON.parse(JSON.stringify(tweets, null, 2)))
     }
