@@ -8,7 +8,7 @@ const tweetsRouter = express.Router();
 const MIN_LATEST_MAX_RESULTS = 10;
 const MAX_LATEST_MAX_RESULTS = 100;
 
-tweetsRouter.get('/latest', 
+tweetsRouter.get('/latests', 
     [
         check('fromid')
             .optional()
