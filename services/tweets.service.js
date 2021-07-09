@@ -3,12 +3,12 @@ const Tweet = require("../models/tweet.model");
 const User = require("../models/user.model");
 
 class TweetsService {
-    static findAllSinceId = async ({ sinceId = undefined, limit = 25 }) => {
+    static findAllUntilId = async ({ untilId = undefined, limit = 25 }) => {
         let whereCondition = undefined;
-        if (sinceId) {
+        if (untilId) {
             whereCondition = {
                 id: {
-                    [Op.lt]: sinceId
+                    [Op.lt]: untilId
                 }
             }
         }

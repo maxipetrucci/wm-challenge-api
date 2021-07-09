@@ -10,10 +10,10 @@ const MAX_LATESTS_LIMIT = 100;
 
 tweetsRouter.get('/latests', 
     [
-        check('fromid')
+        check('untilid')
             .optional()
             .isNumeric()
-            .withMessage('Invalid fromid'),
+            .withMessage('Invalid untilid'),
         check('limit')
             .optional()
             .isNumeric()
@@ -26,11 +26,11 @@ tweetsRouter.get('/latests',
             return response.status(400).send({ errors: errors.map(e => ({ param: e.param, msg: e.msg }))});
         }
 
-        const fromId = request.query.fromid;
+        const untilId = request.query.untilid;
         const limit = request.query.limit;
         
-        if (fromId == undefined) {
-            fetchAndStoreTweets({fromId, limit})
+        if (untilId == undefined) {
+            fetchAndStoreTweets({untilId, limit})
             .then(tweets => response.status(200).send(tweets))
             .catch(e => {
                 console.log(e);
@@ -38,13 +38,13 @@ tweetsRouter.get('/latests',
             });
         }
         else {
-            TweetsService.findAllSinceId({ sinceId: fromId, limit: limit })
+            TweetsService.findAllUntilId({ untilId: untilId, limit: limit })
             .then(tweets => {
                 if (tweets.length == limit) {
                     response.status(200).send(tweets);
                 }
                 else {
-                    fetchAndStoreTweets({fromId, limit})
+                    fetchAndStoreTweets({untilId, limit})
                     .then(fetchedTweets => response.status(200).send(fetchedTweets))
                 }
             })
@@ -56,8 +56,8 @@ tweetsRouter.get('/latests',
     }
 );
 
-const fetchAndStoreTweets = async ({ fromId, limit }) => {
-    return searchLastSevenDaysJavascriptTweets({ fromId, limit })
+const fetchAndStoreTweets = async ({ untilId, limit }) => {
+    return searchLastSevenDaysJavascriptTweets({ untilId, limit })
     .then(async apiResponse => {
         return storeTweets(apiResponse)
         .then(tweetsStored => {
