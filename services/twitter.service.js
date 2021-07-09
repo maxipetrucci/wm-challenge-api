@@ -4,13 +4,13 @@ const twitterClient = new Twitter({
     bearer_token: process.env.TWITTER_BEARER_TOKEN,
 });
 
-const searchLastSevenDaysJavascriptTweets = async ({ fromId, maxResults }) => {
-    const DEFAULT_MAX_RESULTS = 25;
+const searchLastSevenDaysJavascriptTweets = async ({ fromId, limit }) => {
+    const DEFAULT_LIMIT = 25;
     const DAYS_TO_SUBSTRACT = 7;
     
     let searchParams = {
         query: "javascript",
-        max_results: maxResults || DEFAULT_MAX_RESULTS,
+        max_results: limit || DEFAULT_LIMIT,
         "tweet.fields": "attachments,author_id,created_at,public_metrics,in_reply_to_user_id",
         "user.fields": "name,profile_image_url,username,verified",
         expansions: "author_id"
