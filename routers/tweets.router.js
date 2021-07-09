@@ -1,38 +1,60 @@
 const express = require('express');
+const { check, validationResult } = require('express-validator');
 const TweetsService = require('../services/tweets.service');
 const { searchLastSevenDaysJavascriptTweets } = require('../services/twitter.service');
 const UsersService = require('../services/users.service');
 const tweetsRouter = express.Router();
 
-tweetsRouter.get('/latest', (request, response) => {
-    const fromId = request.query.fromid;
-    const maxResults = request.query.maxresults || 25;
-    
-    if (fromId == undefined) {
-        fetchAndStoreTweets({fromId, maxResults})
-        .then(tweets => response.status(200).send(tweets))
-        .catch(e => {
-            console.log(e);
-            response.status(500).send({ error: 'Internal error' });
-        });
+const MIN_LATEST_MAX_RESULTS = 10;
+const MAX_LATEST_MAX_RESULTS = 100;
+
+tweetsRouter.get('/latest', 
+    [
+        check('fromid')
+            .optional()
+            .isNumeric()
+            .withMessage('Invalid fromid'),
+        check('maxresults')
+            .optional()
+            .isNumeric()
+            .custom((value) => value >= MIN_LATEST_MAX_RESULTS && value <= MAX_LATEST_MAX_RESULTS)
+            .withMessage(`Param maxresults must be between ${MIN_LATEST_MAX_RESULTS} and ${MAX_LATEST_MAX_RESULTS}`)
+        ],
+    (request, response) => {
+        var errors = validationResult(request).array();
+        if (errors.length > 0) {
+            return response.status(400).send({ errors: errors.map(e => ({ param: e.param, msg: e.msg }))});
+        }
+
+        const fromId = request.query.fromid;
+        const maxResults = request.query.maxresults;
+        
+        if (fromId == undefined) {
+            fetchAndStoreTweets({fromId, maxResults})
+            .then(tweets => response.status(200).send(tweets))
+            .catch(e => {
+                console.log(e);
+                response.status(500).send({ errors: [{ msg: 'Internal error' }] });
+            });
+        }
+        else {
+            TweetsService.findAllSinceId({ sinceId: fromId, limit: maxResults })
+            .then(tweets => {
+                if (tweets.length == maxResults) {
+                    response.status(200).send(tweets);
+                }
+                else {
+                    fetchAndStoreTweets({fromId, maxResults})
+                    .then(fetchedTweets => response.status(200).send(fetchedTweets))
+                }
+            })
+            .catch(e => {
+                console.log(e);
+                response.status(500).send({ errors: [{ msg: 'Internal error' }] });
+            });
+        }
     }
-    else {
-        TweetsService.findAllSinceId({ sinceId: fromId, limit: maxResults })
-        .then(tweets => {
-            if (tweets.length == maxResults) {
-                response.status(200).send(tweets);
-            }
-            else {
-                fetchAndStoreTweets({fromId, maxResults})
-                .then(fetchedTweets => response.status(200).send(fetchedTweets))
-            }
-        })
-        .catch(e => {
-            console.log(e);
-            response.status(500).send({ error: 'Internal error' });
-        });
-    }
-});
+);
 
 const fetchAndStoreTweets = async ({ fromId, maxResults }) => {
     return searchLastSevenDaysJavascriptTweets({ fromId, maxResults })
