@@ -5,8 +5,8 @@ const { searchLastSevenDaysJavascriptTweets } = require('../services/twitter.ser
 const UsersService = require('../services/users.service');
 const tweetsRouter = express.Router();
 
-const MIN_LATEST_MAX_RESULTS = 10;
-const MAX_LATEST_MAX_RESULTS = 100;
+const MIN_LATESTS_LIMIT = 10;
+const MAX_LATESTS_LIMIT = 100;
 
 tweetsRouter.get('/latests', 
     [
@@ -14,11 +14,11 @@ tweetsRouter.get('/latests',
             .optional()
             .isNumeric()
             .withMessage('Invalid fromid'),
-        check('maxresults')
+        check('limit')
             .optional()
             .isNumeric()
-            .custom((value) => value >= MIN_LATEST_MAX_RESULTS && value <= MAX_LATEST_MAX_RESULTS)
-            .withMessage(`Param maxresults must be between ${MIN_LATEST_MAX_RESULTS} and ${MAX_LATEST_MAX_RESULTS}`)
+            .custom((value) => value >= MIN_LATESTS_LIMIT && value <= MAX_LATESTS_LIMIT)
+            .withMessage(`Param limit must be between ${MIN_LATESTS_LIMIT} and ${MAX_LATESTS_LIMIT}`)
         ],
     (request, response) => {
         var errors = validationResult(request).array();
@@ -27,10 +27,10 @@ tweetsRouter.get('/latests',
         }
 
         const fromId = request.query.fromid;
-        const maxResults = request.query.maxresults;
+        const limit = request.query.limit;
         
         if (fromId == undefined) {
-            fetchAndStoreTweets({fromId, maxResults})
+            fetchAndStoreTweets({fromId, limit})
             .then(tweets => response.status(200).send(tweets))
             .catch(e => {
                 console.log(e);
@@ -38,13 +38,13 @@ tweetsRouter.get('/latests',
             });
         }
         else {
-            TweetsService.findAllSinceId({ sinceId: fromId, limit: maxResults })
+            TweetsService.findAllSinceId({ sinceId: fromId, limit: limit })
             .then(tweets => {
-                if (tweets.length == maxResults) {
+                if (tweets.length == limit) {
                     response.status(200).send(tweets);
                 }
                 else {
-                    fetchAndStoreTweets({fromId, maxResults})
+                    fetchAndStoreTweets({fromId, limit})
                     .then(fetchedTweets => response.status(200).send(fetchedTweets))
                 }
             })
@@ -56,8 +56,8 @@ tweetsRouter.get('/latests',
     }
 );
 
-const fetchAndStoreTweets = async ({ fromId, maxResults }) => {
-    return searchLastSevenDaysJavascriptTweets({ fromId, maxResults })
+const fetchAndStoreTweets = async ({ fromId, limit }) => {
+    return searchLastSevenDaysJavascriptTweets({ fromId, limit })
     .then(async apiResponse => {
         return storeTweets(apiResponse)
         .then(tweetsStored => {
