@@ -30,7 +30,7 @@ tweetsRouter.get('/latests',
         const limit = request.query.limit;
         
         if (untilId == undefined) {
-            fetchAndStoreTweets({untilId, limit})
+            fetchAndStoreTweets({ untilId, limit })
             .then(tweets => response.status(200).send(tweets))
             .catch(e => {
                 console.log(e);
@@ -38,13 +38,13 @@ tweetsRouter.get('/latests',
             });
         }
         else {
-            TweetsService.findAllUntilId({ untilId: untilId, limit: limit })
+            TweetsService.findAllUntilId({ untilId, limit })
             .then(tweets => {
                 if (tweets.length == limit) {
                     response.status(200).send(tweets);
                 }
                 else {
-                    fetchAndStoreTweets({untilId, limit})
+                    fetchAndStoreTweets({ untilId, limit })
                     .then(fetchedTweets => response.status(200).send(fetchedTweets))
                 }
             })
