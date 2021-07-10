@@ -4,7 +4,7 @@ const twitterClient = new Twitter({
     bearer_token: process.env.TWITTER_BEARER_TOKEN,
 });
 
-const searchLastSevenDaysJavascriptTweets = async ({ fromId, limit }) => {
+const searchLastSevenDaysJavascriptTweets = async ({ untilId, limit }) => {
     const DEFAULT_LIMIT = 25;
     const DAYS_TO_SUBSTRACT = 7;
     
@@ -16,8 +16,8 @@ const searchLastSevenDaysJavascriptTweets = async ({ fromId, limit }) => {
         expansions: "author_id"
     };
     
-    if (fromId) {
-        searchParams.until_id = fromId;
+    if (untilId) {
+        searchParams.until_id = untilId;
     }
     else {
         var startDate = new Date();
