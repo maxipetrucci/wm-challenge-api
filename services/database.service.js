@@ -5,7 +5,7 @@ const sequelize = new Sequelize(SERVER_CONFIG.DATABASE_NAME, SERVER_CONFIG.DATAB
     host: SERVER_CONFIG.DATABASE_HOST,
     port: SERVER_CONFIG.DATABASE_PORT,
     dialect: 'mysql',
-    logging: SERVER_CONFIG.ENV == 'dev',
+    logging: SERVER_CONFIG.LOGGING,
     timezone: '-03:00'
 });
 

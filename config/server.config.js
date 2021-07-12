@@ -7,7 +7,7 @@ const SERVER_CONFIG = {
     DATABASE_NAME: process.env.DATABASE_NAME,
     DATABASE_USERNAME: process.env.DATABASE_USERNAME,
     DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
-    ENV: process.env.ENV || 'prd'
+    LOGGING: process.env.LOGGING == 'true'
 }
 
 module.exports = SERVER_CONFIG;
