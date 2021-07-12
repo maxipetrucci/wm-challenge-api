@@ -4,8 +4,8 @@
   "description": "API to pull last tweets from Twitter",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "mocha --timeout 2000"
+    "start": "node server.js",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
