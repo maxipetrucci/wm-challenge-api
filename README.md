@@ -5,7 +5,7 @@
 - `npm install` dentro de la carpeta root
 
 ## Configuracion
-- Abrir el archivo src/AppConstants.js
+- Abrir el archivo src/AppConstants.js\
 -- API_BASE_URL: URL donde encontrar la API [wm-challenge-api](https://github.com/maxipetrucci/wm-challenge-api)
 
 ## Tests
