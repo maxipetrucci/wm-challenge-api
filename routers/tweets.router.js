@@ -1,7 +1,7 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
 const TweetsService = require('../services/tweets.service');
-const { searchLastSevenDaysJavascriptTweets } = require('../services/twitter.service');
+const TwitterService = require('../services/twitter.service');
 const UsersService = require('../services/users.service');
 const tweetsRouter = express.Router();
 
@@ -57,7 +57,7 @@ tweetsRouter.get('/latests',
 );
 
 const fetchAndStoreTweets = async ({ untilId, limit }) => {
-    return searchLastSevenDaysJavascriptTweets({ untilId, limit })
+    return TwitterService.searchLastSevenDaysJavascriptTweets({ untilId, limit })
     .then(async apiResponse => {
         return storeTweets(apiResponse)
         .then(tweetsStored => {
