@@ -105,4 +105,4 @@ const storeTweets = (tweets) => {
     return Promise.all(promises);
 }
 
-module.exports = tweetsRouter;
+module.exports = tweetsRouter, { MIN_LATESTS_LIMIT, MAX_LATESTS_LIMIT };
